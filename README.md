@@ -112,3 +112,55 @@ Esta organización permite que **el dominio sea independiente**, mientras que lo
 ---
 
 Esta arquitectura asegura que la **lógica de negocio se mantenga centralizada**, mientras que la infraestructura, seguridad y exposición REST son fácilmente intercambiables, haciendo que el sistema sea **mantenible y escalable a largo plazo**.
+
+## 3. Mejoras y extensiones futuras
+
+Con más tiempo y recursos, se podrían implementar diversas mejoras y extensiones tanto en el **ámbito técnico** como en el **funcional**, para hacer la aplicación más robusta, mantenible y cercana a un sistema bancario real.
+
+---
+
+### Mejoras técnicas
+
+- **Pruebas completas:**
+    - Implementar tests faltantes en todas las capas (`application`, `rest`, `repository`).
+    - Añadir **tests de integración** para validar la interacción entre módulos.
+    - Incorporar **tests de carga y estrés** para evaluar el comportamiento de la aplicación con un gran volumen de solicitudes de préstamo y garantizar la sostenibilidad del sistema.
+
+- **Validaciones del dominio:**
+    - Mejorar las validaciones en las entidades del dominio para asegurar la integridad de los datos y respuestas correctas desde la API.
+    - Esto incluye validaciones más estrictas sobre documentos identificativos, importes y fechas.
+
+- **Documentación:**
+    - Completar la documentación de **OpenAPI/Swagger** para que sea completamente descriptiva.
+    - Añadir comentarios claros en todas las capas del proyecto para mejorar la legibilidad y facilitar la incorporación de nuevos desarrolladores.
+
+- **Principios y patrones:**
+    - Continuar aplicando **SOLID** y considerar el uso de **patrones de diseño** adicionales (Factory, Strategy, Observer, etc.) según las necesidades del negocio o la complejidad futura.
+
+---
+
+### Mejoras funcionales
+
+- **Validación de solicitudes:**
+    - Validar que el DNI/NIE proporcionado exista en la base de datos o en sistemas externos de verificación antes de crear una solicitud.
+
+- **Gestión del historial:**
+    - Actualmente se permite un **borrado físico** de préstamos cancelados. Para conservar el historial, se podría implementar un **borrado lógico** mediante un estado “Eliminado” y ejecutar periódicamente un job para borrar físicamente registros antiguos si fuera necesario.
+
+- **Refinamiento de procesos bancarios:**
+    - Incorporar reglas más sofisticadas para la aprobación de préstamos: análisis de situación laboral, saldo bancario, estadísticas históricas, scoring crediticio, etc.
+    - Esto permitiría un flujo de negocio más realista, similar a sistemas de bancos actuales.
+
+---
+
+### Mejoras arquitecturales
+
+- **Persistencia:**
+    - Migrar de almacenamiento en memoria a una **base de datos relacional** como PostgreSQL u Oracle, garantizando soporte ACID, seguridad y consistencia para uso bancario.
+    - No se recomienda usar bases NoSQL para este tipo de aplicación financiera debido a la falta de transacciones ACID por diseño.
+
+- **Escalabilidad y modularidad:**
+    - Mantener la arquitectura DDD + hexagonal, que es muy adaptable.
+    - Separar el proyecto en **múltiples módulos Maven**, permitiendo una mayor independencia entre dominio, infraestructura y exposición REST, especialmente útil en proyectos de mayor envergadura.
+
+Estas mejoras permitirían que el microservicio no solo cumpla con los requisitos funcionales actuales, sino que también sea **robusto, escalable, mantenible y alineado con prácticas bancarias profesionales**.
